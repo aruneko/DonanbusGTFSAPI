@@ -190,3 +190,64 @@ class Trip(db.Model):
         self.desc = test(str, desc)
         self.desc_symbol = test(str, desc_symbol)
         self.office_id = test(str, office_id)
+
+
+class StopTime(db.Model):
+    __tablename__ = 'stop_times'
+    trip_id = Column(String(32), ForeignKey('trips.id'), nullable=False, primary_key=True)
+    arrival_time = Column(String(8), nullable=False)
+    departure_time = Column(String(8), nullable=False)
+    stop_id = Column(String(16), ForeignKey('stops.id'), nullable=False)
+    sequence = Column(Integer, nullable=False, primary_key=True)
+    headsign = Column(Text, nullable=True)
+    pickup_type = Column(Integer, nullable=True)
+    drop_off_type = Column(Integer, nullable=True)
+    shape_dist_traveled = Column(Float, nullable=True)
+    timepoint = Column(Integer, nullable=True)
+
+    def __init__(self, trip_id, arrival_time, departure_time, stop_id, sequence,
+                 headsign, pickup_type, drop_off_type, shape_dist_traveled, timepoint):
+        self.trip_id = trip_id
+        self.arrival_time = arrival_time
+        self.departure_time = departure_time
+        self.stop_id = stop_id
+        self.sequence = int(sequence)
+        self.headsign = test(str, headsign)
+        self.pickup_type = test(int, pickup_type)
+        self.drop_off_type = test(int, drop_off_type)
+        self.shape_dist_traveled = test(float, shape_dist_traveled)
+        self.timepoint = test(int, timepoint)
+
+
+class FareAttribute(db.Model):
+    __tablename__ = 'fare_attributes'
+    id = Column(String(16), nullable=False, primary_key=True)
+    price = Column(Integer, nullable=False)
+    currency_type = Column(String(3), nullable=False)
+    payment_method = Column(Integer, nullable=False)
+    transfers = Column(Integer, nullable=False)
+    transfer_duration = Column(Integer, nullable=True)
+
+    def __init__(self, id, price, currency_type, payment_method, transfers, transfer_duration):
+        self.id = id
+        self.price = int(price)
+        self.currency_type = currency_type
+        self.payment_method = int(payment_method)
+        self.transfers = int(transfers)
+        self.transfer_duration = test(int, transfer_duration)
+
+
+class FareRule(db.Model):
+    __tablename__ = 'fare_rules'
+    id = Column(String(16), ForeignKey('fare_attributes.id'), nullable=False, primary_key=True)
+    route_id = Column(String(16), ForeignKey('routes.id'), nullable=False, primary_key=True)
+    origin_id = Column(String(16), nullable=True, primary_key=True)
+    destination_id = Column(String(16), nullable=True, primary_key=True)
+    contains_id = Column(String(16), nullable=True)
+
+    def __init__(self, id, route_id, origin_id, destination_id, contains_id):
+        self.id = id
+        self.route_id = route_id
+        self.origin_id = test(str, origin_id)
+        self.destination_id = test(str, destination_id)
+        self.contains_id = test(str, contains_id)

@@ -2,7 +2,8 @@ from typing import List
 
 from flask import Flask
 
-from gtfs_api.models import Agency, db, Stop, Route, Calendar, CalendarDate, Shape, Office, Trip
+from gtfs_api.models import Agency, db, Stop, Route, Calendar, CalendarDate, Shape, Office, Trip, StopTime, \
+    FareAttribute, FareRule
 
 
 def read_csv(file_name: str) -> List[List[str]]:
@@ -30,3 +31,6 @@ def init_db(flask_app: Flask) -> None:
     add_data(flask_app, Shape, 'shapes.txt')
     add_data(flask_app, Office, 'office_jp.txt')
     add_data(flask_app, Trip, 'trips.txt')
+    add_data(flask_app, StopTime, 'stop_times.txt')
+    add_data(flask_app, FareAttribute, 'fare_attributes.txt')
+    add_data(flask_app, FareRule, 'fare_rules.txt')
