@@ -12,6 +12,13 @@ services:
       - ./gtfs/:/usr/src/app/gtfs
     links:
       - mysql
+    entrypoint:
+      - dockerize
+      - -timeout
+      - 60s
+      - -wait
+      - tcp://mysql:3306
+    command: python /usr/src/app/gtfs_api/app.py
 
   mysql:
     image: mariadb:latest
