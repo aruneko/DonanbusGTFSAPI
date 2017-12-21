@@ -2,7 +2,7 @@ from flask_restplus import Namespace, fields, Resource
 
 from gtfs_api.models import Stop
 
-stop_namespace = Namespace('stops', description='バス停情報API')
+stop_namespace = Namespace('stops', description='バス停情報エンドポイント')
 
 stop = stop_namespace.model('Stop', {
     'id': fields.String(required=True, description='バス停ID', example='0211_B'),
@@ -24,6 +24,9 @@ stop = stop_namespace.model('Stop', {
 class StopsList(Resource):
     @stop_namespace.marshal_list_with(stop)
     def get(self):
+        """
+        バス停情報一覧
+        """
         return Stop.query.all()
 
 
@@ -31,4 +34,7 @@ class StopsList(Resource):
 class StopController(Resource):
     @stop_namespace.marshal_with(stop)
     def get(self, stop_id):
+        """
+        バス停情報詳細
+        """
         return Stop.query.filter(Stop.id == stop_id).first_or_404()

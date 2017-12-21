@@ -2,7 +2,7 @@ from flask_restplus import Namespace, fields, Resource
 
 from gtfs_api.models import Agency
 
-agency_namespace = Namespace('agency', description='事業者情報API')
+agency_namespace = Namespace('agency', description='事業者情報エンドポイント')
 
 agency = agency_namespace.model('Agency', {
     'id': fields.String(required=True, description='事業者ID', example='1430001056880'),

@@ -2,7 +2,7 @@ from flask_restplus import Namespace, fields, Resource
 
 from gtfs_api.models import Route
 
-route_namespace = Namespace('routes', description='経路情報API')
+route_namespace = Namespace('routes', description='経路情報エンドポイント')
 
 route = route_namespace.model('Route', {
     'id': fields.String(required=True, description='経路ID', example='131700'),
@@ -26,6 +26,9 @@ route = route_namespace.model('Route', {
 class RouteList(Resource):
     @route_namespace.marshal_list_with(route)
     def get(self):
+        """
+        経路一覧
+        """
         return Route.query.all()
 
 
@@ -33,4 +36,7 @@ class RouteList(Resource):
 class RouteController(Resource):
     @route_namespace.marshal_with(route)
     def get(self, route_id):
+        """
+        経路情報詳細
+        """
         return Route.query.filter(Route.id == route_id).first_or_404()
