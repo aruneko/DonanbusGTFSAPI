@@ -5,6 +5,8 @@ from gtfs_api.apis import api
 from gtfs_api.models import db
 from gtfs_api.models.inject_initial_gtfs import init_db
 
+app = Flask(__name__)
+
 
 def configure_app(flask_app: Flask) -> None:
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = settings.SQLALCHEMY_DATABASE_URI
@@ -22,7 +24,6 @@ def initialize_app(flask_app: Flask) -> None:
 
 
 def main() -> None:
-    app = Flask(__name__)
     initialize_app(app)
     app.run(host='0.0.0.0', debug=settings.DEBUG)
 
