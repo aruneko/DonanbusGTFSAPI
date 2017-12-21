@@ -3,7 +3,6 @@ FROM python:alpine3.6
 WORKDIR /usr/src/app
 
 ENV DOCKERIZE_VERSION v0.6.0
-ENV ENTRYKIT_VERSION 0.4.0
 
 COPY requirements.txt ./
 RUN pip install -U --no-cache-dir -r requirements.txt \
